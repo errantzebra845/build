@@ -22,7 +22,7 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 - aospremote: Add git remote for matching AOSP repository
 - cafremote: Add git remote for matching CodeAurora repository.
 - cmremote: Add a git remote for matching CM repository.
-- slimremote: Add a git remote for matching SLIM repository.
+- candy5remote: Add a git remote for matching CANDY5 repository.
 - mka:      Builds using SCHED_BATCH on all processors
 - reposync: Parallel repo sync using ionice and SCHED_BATCH
 
@@ -70,12 +70,12 @@ function check_product()
         return
     fi
 
-    if (echo -n $1 | grep -q -e "^slim_") ; then
-       SLIM_BUILD=$(echo -n $1 | sed -e 's/^slim_//g')
+    if (echo -n $1 | grep -q -e "^candy5_") ; then
+       CANDY5_BUILD=$(echo -n $1 | sed -e 's/^candy5_//g')
     else
-       SLIM_BUILD=
+       CANDY5_BUILD=
     fi
-    export SLIM_BUILD
+    export CANDY5_BUILD
 
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
@@ -534,10 +534,10 @@ function breakfast()
 {
     target=$1
     local variant=$2
-    SLIM_DEVICES_ONLY="true"
+    CANDY5_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
-    for f in `/bin/ls vendor/slim/vendorsetup.sh 2> /dev/null`
+    for f in `/bin/ls vendor/candy5/vendorsetup.sh 2> /dev/null`
         do
 echo "including $f"
             . $f
@@ -553,11 +553,11 @@ echo "z$target" | grep -q "-"
             # A buildtype was specified, assume a full device name
             lunch $target
         else
-            # This is probably just the SLIM model name
+            # This is probably just the CANDY5 model name
             if [ -z "$variant" ]; then
                 variant="userdebug"
             fi
-            lunch slim_$target-$variant
+            lunch candy5_$target-$variant
         fi
 fi
 return $?
@@ -604,7 +604,7 @@ function lunch()
     check_product $product
     if [ $? -ne 0 ]
     then
-        # if we can't find a product, try to grab it off the SlimRoms github
+        # if we can't find a product, try to grab it off the CandyRoms github
         T=$(gettop)
         pushd $T > /dev/null
         build/tools/roomservice.py $product
@@ -758,8 +758,8 @@ alias mmp='mmmp .'
 function eat()
 {
     if [ "$OUT" ] ; then
-        MODVERSION=`sed -n -e'/ro\.slim\.version/s/.*=//p' $OUT/system/build.prop`
-        ZIPFILE=slim-$MODVERSION.zip
+        MODVERSION=`sed -n -e'/ro\.candy5\.version/s/.*=//p' $OUT/system/build.prop`
+        ZIPFILE=candy5-$MODVERSION.zip
         ZIPPATH=$OUT/$ZIPFILE
         if [ ! -f $ZIPPATH ] ; then
             echo "Nothing to eat"
@@ -1651,9 +1651,9 @@ function cmremote()
     echo "Remote 'cm' created"
 }
 
-function slimremote()
+function candy5remote()
 {
-    git remote rm slim 2> /dev/null
+    git remote rm candy5 2> /dev/null
     PFX=""
     if [ ! -d .git ]
     then
@@ -1667,8 +1667,8 @@ function slimremote()
 
     PROJECT="$(echo $PROJ | sed 's/\//_/g')"
 
-    git remote add slim git@github.com:SlimRoms/$PFX$PROJECT
-    echo "Remote 'slim' created"
+    git remote add candy5 git@github.com:CandyRoms/$PFX$PROJECT
+    echo "Remote 'candy5' created"
     fi
 }
 
