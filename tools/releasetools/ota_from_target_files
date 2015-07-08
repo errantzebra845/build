@@ -544,6 +544,19 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
 
   device_specific.FullOTA_InstallBegin()
 
+script.Print(" ")
+script.Print(" ")
+script.Print("-----------------------------------------------------")
+script.Print("        A)aa    O)oooo  E)eeeeee Z)zzzzzz P)ppppp    ")
+script.Print("       A)  aa  O)    oo E)             Z) P)    pp   ")
+script.Print("      A)    aa O)    oo E)eeeee      Z)   P)ppppp    ")
+script.Print("      A)aaaaaa O)    oo E)          Z)    P)         ")
+script.Print("      A)    aa O)    oo E)        Z)      P)         ")
+script.Print("      A)    aa  O)oooo  E)eeeeee Z)zzzzzz P)         ")
+script.Print("-----------------------------------------------------")
+script.Print(" ")
+script.Print(" ")
+
   system_progress = 0.75
 
   if OPTIONS.wipe_user_data:
